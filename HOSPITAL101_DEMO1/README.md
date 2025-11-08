@@ -7,10 +7,10 @@ docker compose up -d --build
 docker compose down -v
 databaseจะสร้างให้เองเลยแต่ถ้าอยากเข้าเช็ค
 #เข้าsqldevเพื่อเช็คฐานข้อมูล
-์NAME = <ตั้งตามต้องการ>
-๊USERNAME = HOSPITAL
+NAME = <ตั้งตามต้องการ>
+USERNAME = HOSPITAL
 PASSWORD = hospital101
-็HOSTNAME = localhost
+HOSTNAME = localhost
 PORT = 1521
 SERVICENAME = XEPDB1 #SERVICENAMEไม่ใช่SID
 
