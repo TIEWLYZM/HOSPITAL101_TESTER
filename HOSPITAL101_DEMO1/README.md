@@ -1,3 +1,4 @@
+```bash
 # HOSPITAL101_DEMO
 รันในDocker
 พิมพ์
@@ -15,3 +16,5 @@ SERVICENAME = XEPDB1 #SERVICENAMEไม่ใช่SID
 
 เข้าเว็ปไซต์ได้โดยเข้าใช้งานผ่านหน้าdashbord
 http://localhost:8081/appointment_create.html
+
+```
