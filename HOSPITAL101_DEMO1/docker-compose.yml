@@ -1,0 +1,49 @@
+services:
+  db:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle_xe_hospital
+    environment:
+      - ORACLE_PASSWORD=oracle
+      - APP_USER=HOSPITAL
+      - APP_USER_PASSWORD=hospital101
+    ports:
+      - "1521:1521"
+      - "5500:5500"
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "echo 'exit' | sqlplus -L sys/oracle@localhost:1521/xepdb1 as sysdba > /dev/null 2>&1"]
+      interval: 15s
+      timeout: 10s
+      retries: 40
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: hospital_api
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - DB_HOST=db
+      - DB_PORT=1521
+      - DB_USER=HOSPITAL
+      - DB_PASSWORD=hospital101
+      - DB_SERVICE=xepdb1
+      - PORT=8080
+      - TZ=Asia/Bangkok
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: hospital_web
+    depends_on: [backend]
+    environment:
+      - API_BASE=http://backend:8080
+    ports:
+      - "8081:80"

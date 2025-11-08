@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Views Report</title>
+    <style>
+      :root {
+        --bg: #0c1220;
+        --card: #121a2b;
+        --muted: #8ea0bd;
+        --text: #e6ecff;
+        --line: #24324d;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, Segoe UI, Roboto, Arial;
+      }
+      .wrap {
+        max-width: 1100px;
+        margin: 48px auto;
+        padding: 0 20px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+        align-items: center;
+      }
+      .input-group {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+      }
+      select,
+      button {
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #0e1626;
+        color: var(--text);
+      }
+      select {
+        min-width: 260px;
+      }
+      #filter {
+        min-width: 220px;
+      }
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 10px;
+      }
+      thead th {
+        font-size: 12px;
+        color: var(--muted);
+        text-align: left;
+        padding: 10px 12px;
+        background: #0e1626;
+        border-bottom: 1px solid var(--line);
+      }
+      tbody td {
+        padding: 12px;
+        border-bottom: 1px solid var(--line);
+      }
+      tbody tr:hover {
+        background: #0e1626;
+      }
+      .title {
+        font-size: 18px;
+        font-weight: 600;
+        margin: 6px 0 2px 2px;
+        color: var(--text);
+      }
+      .muted {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .hide {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <div class="row">
+          <div class="input-group">
+            <select id="v">
+              <option>rooms_by_department</option>
+              <option>doctors_by_department</option>
+              <option>patients_appointments_by_department</option>
+              <option>patients_by_doctor_name</option>
+              <option>patient_appointment_status</option>
+              <option>appointment_status_history_view</option>
+              <option>department_doctor_counts</option>
+              <option>department_patient_counts</option>
+              <option>department_with_most_doctors</option>
+              <option>department_with_most_patients</option>
+              <option>appointments_completed</option>
+              <option>appointments_cancelled</option>
+            </select>
+
+            <!-- filter ติดกับ view -->
+            <select id="filter" class="hide"></select>
+
+            <!-- ปุ่มโหลดถัดจาก filter -->
+            <button id="load">โหลด</button>
+          </div>
+        </div>
+
+        <!-- หัวเรื่อง -->
+        <div id="title" class="title"></div>
+        <div id="subtitle" class="muted"></div>
+
+        <div style="overflow: auto">
+          <table id="tbl">
+            <thead></thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <script type="module">
+      import { apiGet } from "./js/api.js";
+
+      const TITLES = {
+        rooms_by_department: "ห้องของแผนก",
+        doctors_by_department: "แพทย์ของแผนก",
+        patients_appointments_by_department: "คนไข้ตามใบนัดของแผนก",
+        patients_by_doctor_name: "ผู้ป่วยที่นัดโดยหมอ",
+        patient_appointment_status: "สถานะการนัดของผู้ป่วย",
+        appointment_status_history_view: "ประวัติสถานะของการนัดหมาย",
+        department_doctor_counts: "จำนวนหมอแต่ละแผนก",
+        department_patient_counts: "จำนวนคนไข้แต่ละแผนก",
+        department_with_most_doctors: "แผนกที่มีหมอมากที่สุด",
+        department_with_most_patients: "แผนกที่มีคนไข้มากที่สุด",
+        appointments_completed: "ใบนัดที่สำเร็จแล้ว",
+        appointments_cancelled: "ใบนัดที่ยกเลิกแล้ว",
+      };
+
+      function findCol(cols, tokens) {
+        const U = cols.map((c) => c.toUpperCase());
+        for (const c of U) {
+          let ok = true;
+          for (const t of tokens) {
+            if (!c.includes(t)) {
+              ok = false;
+              break;
+            }
+          }
+          if (ok) return cols[U.indexOf(c)];
+        }
+        return null;
+      }
+
+      function getFilterSpec(view, cols) {
+        switch (view) {
+          case "rooms_by_department":
+          case "doctors_by_department":
+          case "patients_appointments_by_department": {
+            const keyMain =
+              findCol(cols, ["DEPT", "NAME"]) ||
+              findCol(cols, ["DEPARTMENT", "NAME"]) ||
+              findCol(cols, ["DEPARTMENT"]);
+            return { type: "dept", keyMain };
+          }
+          case "patients_by_doctor_name": {
+            const keyMain =
+              findCol(cols, ["DOCTOR", "NAME"]) ||
+              findCol(cols, ["FULL", "NAME"]) ||
+              findCol(cols, ["DOCTOR"]);
+            return { type: "doctor", keyMain };
+          }
+          case "patient_appointment_status":
+          case "appointment_status_history_view": {
+            const keyId =
+              findCol(cols, ["APPOINTMENT", "ID"]) || "APPOINTMENT_ID";
+            const keyName =
+              findCol(cols, ["PATIENT", "NAME"]) ||
+              findCol(cols, ["FULL", "NAME"]) ||
+              findCol(cols, ["PATIENT"]);
+            return { type: "appt", keyId, keyName };
+          }
+          default:
+            return { type: null };
+        }
+      }
+
+      function formatCell(colName, value) {
+        if (value == null) return "";
+        const looksLikeDateCol =
+          /(_DATE|_AT)$/i.test(colName) || /DATE|TIME/i.test(colName);
+        if (
+          looksLikeDateCol ||
+          (typeof value === "string" && !isNaN(Date.parse(value)))
+        ) {
+          const d = new Date(value);
+          if (!isNaN(d)) return d.toDateString();
+        }
+        return value;
+      }
+
+      function renderTable(rows) {
+        const th = document.querySelector("#tbl thead");
+        const tb = document.querySelector("#tbl tbody");
+        if (!rows.length) {
+          th.innerHTML = "";
+          tb.innerHTML = "";
+          return;
+        }
+        const cols = Object.keys(rows[0]);
+        th.innerHTML = `<tr>${cols.map((c) => `<th>${c}</th>`).join("")}</tr>`;
+        tb.innerHTML = rows
+          .map((r) => {
+            const tds = cols
+              .map((c) => `<td>${formatCell(c, r[c])}</td>`)
+              .join("");
+            return `<tr>${tds}</tr>`;
+          })
+          .join("");
+      }
+
+      function renderTitle(view, suffixText) {
+        const base = TITLES[view] || view;
+        document.getElementById("title").textContent = suffixText
+          ? `${base} (${suffixText})`
+          : base;
+      }
+
+      function renderFilter(view, rows, spec, selectedToRestore = "") {
+        const sel = document.getElementById("filter");
+        sel.innerHTML = "";
+        sel.classList.add("hide");
+
+        if (!spec || !spec.type) return;
+
+        if (spec.type === "dept" && spec.keyMain) {
+          const uniq = [
+            ...new Set(rows.map((r) => r[spec.keyMain]).filter(Boolean)),
+          ].sort();
+          sel.innerHTML =
+            `<option value="">— เลือกแผนก —</option>` +
+            uniq.map((v) => `<option>${v}</option>`).join("");
+          sel.classList.remove("hide");
+        } else if (spec.type === "doctor" && spec.keyMain) {
+          const uniq = [
+            ...new Set(rows.map((r) => r[spec.keyMain]).filter(Boolean)),
+          ].sort();
+          sel.innerHTML =
+            `<option value="">— เลือกชื่อหมอ —</option>` +
+            uniq.map((v) => `<option>${v}</option>`).join("");
+          sel.classList.remove("hide");
+        } else if (spec.type === "appt" && spec.keyId) {
+          const labels = rows
+            .map((r) => {
+              const id = r[spec.keyId];
+              const nm = spec.keyName ? r[spec.keyName] : "";
+              const label = nm ? `${id} — ${nm}` : id;
+              return { id, label };
+            })
+            .filter((x) => x.id)
+            .reduce((m, x) => m.set(x.id, x.label), new Map());
+          sel.innerHTML =
+            `<option value="">— เลือก Appointment —</option>` +
+            [...labels.entries()]
+              .map(([id, label]) => `<option value="${id}">${label}</option>`)
+              .join("");
+          sel.classList.remove("hide");
+        }
+
+        // คืนค่าเดิมถ้ายังอยู่ในลิสต์
+        if (selectedToRestore) {
+          const opt = [...sel.options].find(
+            (o) => o.value === selectedToRestore || o.text === selectedToRestore
+          );
+          if (opt) sel.value = opt.value;
+        }
+      }
+
+      function applyFilter(view, rows, spec, selected) {
+        if (!spec || !spec.type || !selected) return rows;
+        if ((spec.type === "dept" || spec.type === "doctor") && spec.keyMain) {
+          return rows.filter((r) => String(r[spec.keyMain]) === selected);
+        }
+        if (spec.type === "appt" && spec.keyId) {
+          return rows.filter((r) => String(r[spec.keyId]) === selected);
+        }
+        return rows;
+      }
+
+      let lastRows = [];
+      let lastSpec = null;
+
+      // =============== ส่วนเปลี่ยนใหม่สำคัญ ===============
+      // 1) เปลี่ยนวิว -> เตรียม dropdown ให้เลย (ยังไม่แสดงตาราง)
+      async function prepareFilterForView() {
+        const view = document.getElementById("v").value;
+        const filterEl = document.getElementById("filter");
+
+        // reset UI: ชื่อเรื่องเป็น base, ล้างตาราง, รีเซ็ตตัวเลือก
+        renderTitle(view, "");
+        renderTable([]);
+        filterEl.innerHTML = "";
+        filterEl.classList.add("hide");
+
+        // ดึงข้อมูลของวิวนี้มาเพื่อ "คำนวนตัวเลือก" เท่านั้น
+        const res = await apiGet(`/api/views/${view}`);
+        const rows = Array.isArray(res.rows) ? res.rows : [];
+        lastRows = rows;
+
+        const cols = rows.length ? Object.keys(rows[0]) : [];
+        lastSpec = getFilterSpec(view, cols);
+
+        // สร้าง dropdown สำหรับวิวนี้ให้ผู้ใช้เลือกได้ทันที
+        renderFilter(view, rows, lastSpec, "");
+        // อย่า render ตาราง ณ จุดนี้ (รอผู้ใช้กด "โหลด")
+      }
+
+      // 2) กดปุ่ม "โหลด" -> ค่อยกรองและแสดงผล
+      async function loadView() {
+        const view = document.getElementById("v").value;
+        const filterEl = document.getElementById("filter");
+
+        // ถ้า lastRows ยังไม่ใช่วิวปัจจุบัน หรือยังไม่มีข้อมูล (เช่นเพิ่งเปิดหน้า)
+        // ให้เตรียม dropdown + lastRows ก่อน
+        if (!lastRows.length || !lastSpec) {
+          await prepareFilterForView();
+        }
+
+        const selected = filterEl.value;
+        const filtered = applyFilter(view, lastRows, lastSpec, selected);
+        renderTitle(view, selected || "");
+        renderTable(filtered);
+      }
+      // =====================================================
+
+      // ไม่ auto-load เมื่อเปลี่ยนค่า dropdown
+      // (ไม่มี addEventListener('change') ให้ filter)
+
+      // เปลี่ยนวิว -> เตรียม dropdown ของวิวนั้นทันที
+      document
+        .getElementById("v")
+        .addEventListener("change", prepareFilterForView);
+
+      // กดปุ่ม "โหลด" -> แสดงผล
+      document.getElementById("load").onclick = loadView;
+
+      // โหลดครั้งแรก: เตรียม dropdown ตามวิวเริ่มต้น
+      window.addEventListener("DOMContentLoaded", prepareFilterForView);
+    </script>
+  </body>
+</html>

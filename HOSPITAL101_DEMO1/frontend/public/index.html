@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="th">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Dashboard</title>
+    <style>
+      :root {
+        --bg: #0c1220;
+        --card: #121a2b;
+        --muted: #8ea0bd;
+        --text: #e6ecff;
+        --line: #24324d;
+        --accent: #0ea5e9;
+        --ok: #22c55e;
+        --danger: #ef4444;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, Segoe UI, Roboto, Arial;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 48px auto;
+        padding: 0 20px;
+      }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .title {
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+      }
+      .navbtns {
+        display: flex;
+        gap: 10px;
+      }
+      .chip {
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: #0e1a2e;
+        border: 1px solid var(--line);
+        color: #cde1ff;
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .stat {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      .stat .label {
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .stat .value {
+        font-size: 26px;
+        font-weight: 800;
+      }
+      @media (max-width: 840px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="title">Dashboard</div>
+        <div class="navbtns">
+          <a class="chip" href="appointment_create.html">ออกใบนัด</a
+          ><a class="chip" href="appointment_history.html">ประวัติ</a
+          ><a class="chip" href="views_report.html">Views Report</a>
+        </div>
+      </div>
+      <div id="stats" class="grid">
+        <div class="card stat">
+          <div class="label">จำนวนคนไข้</div>
+          <div class="value">—</div>
+        </div>
+        <div class="card stat">
+          <div class="label">จำนวนแพทย์</div>
+          <div class="value">—</div>
+        </div>
+        <div class="card stat">
+          <div class="label">จำนวนใบนัด</div>
+          <div class="value">—</div>
+        </div>
+        <div class="card stat">
+          <div class="label">นัดที่จะถึง (2 ชม.)</div>
+          <div class="value">—</div>
+        </div>
+        <div class="card stat">
+          <div class="label">% Complete</div>
+          <div class="value">—</div>
+        </div>
+        <div class="card stat">
+          <div class="label">% Cancel</div>
+          <div class="value">—</div>
+        </div>
+      </div>
+    </div>
+    <script type="module">
+      import { apiGet } from "./js/api.js";
+
+      (async () => {
+        const resp = await apiGet("/api/dashboard");
+        const d = resp?.data ?? resp ?? {};
+
+        const patients = d.patients ?? 0;
+        const doctors = d.doctors ?? 0;
+        const appointments = d.appointments ?? 0;
+        const upcoming2h = d.upcoming2h ?? d.upcoming_2h ?? 0;
+        const pctComplete = (d.pctComplete ?? d.percent_complete ?? 0) + "%";
+        const pctCancel = (d.pctCancel ?? d.percent_cancel ?? 0) + "%";
+
+        const v = [
+          patients,
+          doctors,
+          appointments,
+          upcoming2h,
+          pctComplete,
+          pctCancel,
+        ];
+        document
+          .querySelectorAll("#stats .value")
+          .forEach((el, i) => (el.textContent = v[i]));
+      })();
+    </script>
+  </body>
+</html>
