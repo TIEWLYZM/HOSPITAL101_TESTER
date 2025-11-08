@@ -395,6 +395,8 @@
 
           const rows = [
             ["ผู้ป่วย", ap.PATIENT_NAME],
+            ["เบอร์โทร", ap.PHONE || ap.PATIENT_PHONE || ""],
+            ["อีเมล", ap.EMAIL || ap.PATIENT_EMAIL || ""],
             ["แพทย์", ap.DOCTOR_NAME],
             ["แผนก", ap.DEPT_NAME],
             ["ประเภทนัด", ap.TYPE_NAME],
