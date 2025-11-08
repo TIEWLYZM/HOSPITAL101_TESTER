@@ -1,237 +1,430 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="th">
-<head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>ออกใบนัด (Create Appointment)</title>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>ออกใบนัด (Create Appointment)</title>
 
-  <!-- Toastify -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-  <style>
-    .toast-success{ background: linear-gradient(135deg,#22c55e,#16a34a)!important; }
-    .toast-error{ background: linear-gradient(135deg,#ef4444,#dc2626)!important; }
-  </style>
+    <!-- Toastify -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <style>
+      .toast-success {
+        background: linear-gradient(135deg, #22c55e, #16a34a) !important;
+      }
+      .toast-error {
+        background: linear-gradient(135deg, #ef4444, #dc2626) !important;
+      }
+    </style>
 
-  <style>
-    :root{
-      --bg:#0c1220;
-      --card:#121a2b;
-      --muted:#8ea0bd;
-      --text:#e6ecff;
-      --line:#24324d;
-      --accent:#0ea5e9;
-      --ok:#22c55e;
-      --warn:#f59e0b;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Segoe UI,Roboto,Arial}
-    a{color:var(--accent);text-decoration:none}
-    .wrap{max-width:980px;margin:48px auto;padding:0 20px}
-    .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-    .title{font-size:28px;font-weight:800;letter-spacing:.2px}
-    .navbtns{display:flex;gap:10px}
-    .chip{padding:8px 14px;border-radius:999px;background:#0e1a2e;border:1px solid var(--line);color:#cde1ff;font-weight:700;font-size:12px}
-    .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
-    .row{display:flex;flex-direction:column;gap:8px}
-    label{font-size:13px;color:var(--muted)}
-    input,select,textarea{
-      width:100%;padding:12px 14px;border-radius:12px;
-      border:1px solid var(--line);background:#0e1626;color:var(--text);
-      outline:none
-    }
-    input:focus,select:focus,textarea:focus{border-color:#2b3d60}
-    input[disabled]{opacity:.75}
-    textarea{min-height:110px;resize:vertical}
-    .hint{font-size:12px;color:#9ab0d4}
-    .actions{margin-top:16px;display:flex;gap:12px;flex-wrap:wrap}
-    .btn{padding:12px 16px;border-radius:12px;border:1px solid transparent;cursor:pointer;font-weight:700}
-    .btn-primary{background:var(--ok);color:#06210e}
-    .btn-ghost{background:transparent;border-color:var(--line);color:#cde1ff}
-    .btn-info{background:#0b3346;border-color:#11465f;color:#bfeaff}
-    @media (max-width:840px){ .grid{grid-template-columns:1fr} }
-  </style>
-</head>
-<body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="title">ออกใบนัด (Create Appointment)</div>
-      <div class="navbtns">
-        <a class="chip" href="index.html">Dashboard</a>
-        <a class="chip" href="appointment_history.html">ดูประวัติ</a>
+    <style>
+      :root {
+        --bg: #0c1220;
+        --card: #121a2b;
+        --muted: #8ea0bd;
+        --text: #e6ecff;
+        --line: #24324d;
+        --accent: #0ea5e9;
+        --ok: #22c55e;
+        --warn: #f59e0b;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: system-ui, Segoe UI, Roboto, Arial;
+      }
+      a {
+        color: var(--accent);
+        text-decoration: none;
+      }
+      .wrap {
+        max-width: 980px;
+        margin: 48px auto;
+        padding: 0 20px;
+      }
+      .topbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 18px;
+      }
+      .title {
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: 0.2px;
+      }
+      .navbtns {
+        display: flex;
+        gap: 10px;
+      }
+      .chip {
+        padding: 8px 14px;
+        border-radius: 999px;
+        background: #0e1a2e;
+        border: 1px solid var(--line);
+        color: #cde1ff;
+        font-weight: 700;
+        font-size: 12px;
+      }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 22px;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+      .row {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      label {
+        font-size: 13px;
+        color: var(--muted);
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #0e1626;
+        color: var(--text);
+        outline: none;
+      }
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: #2b3d60;
+      }
+      input[disabled] {
+        opacity: 0.75;
+      }
+      textarea {
+        min-height: 110px;
+        resize: vertical;
+      }
+      .hint {
+        font-size: 12px;
+        color: #9ab0d4;
+      }
+      .actions {
+        margin-top: 16px;
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .btn {
+        padding: 12px 16px;
+        border-radius: 12px;
+        border: 1px solid transparent;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn-primary {
+        background: var(--ok);
+        color: #06210e;
+      }
+      .btn-ghost {
+        background: transparent;
+        border-color: var(--line);
+        color: #cde1ff;
+      }
+      .btn-info {
+        background: #0b3346;
+        border-color: #11465f;
+        color: #bfeaff;
+      }
+      @media (max-width: 840px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <div class="title">ออกใบนัด (Create Appointment)</div>
+        <div class="navbtns">
+          <a class="chip" href="index.html">Dashboard</a>
+          <a class="chip" href="appointment_history.html">ดูประวัติ</a>
+        </div>
+      </div>
+
+      <div class="card">
+        <form id="f" class="grid">
+          <!-- ซ้าย -->
+          <div class="col">
+            <div class="row">
+              <label>ผู้ป่วย</label>
+              <select id="patient_id" required>
+                <option value="">— เลือก —</option>
+              </select>
+            </div>
+            <div class="row">
+              <label>แผนก</label>
+              <select id="department_id" required>
+                <option value="">— เลือก —</option>
+              </select>
+            </div>
+            <div class="row">
+              <label>ประเภทนัด</label>
+              <select id="type_id" required>
+                <option value="">— เลือก —</option>
+              </select>
+            </div>
+            <div class="row">
+              <label>วันนัด (YYYY-MM-DD)</label>
+              <input type="date" id="appointment_date" required />
+            </div>
+            <div class="row">
+              <label>ระยะเวลา (นาที)</label>
+              <input type="number" id="duration_min" value="0" min="0" />
+            </div>
+            <div class="row">
+              <label>หมายเหตุ</label>
+              <textarea
+                id="notes"
+                placeholder="เช่น ตรวจสุขภาพประจำปี"
+              ></textarea>
+            </div>
+          </div>
+
+          <!-- ขวา -->
+          <div class="col">
+            <div class="row">
+              <label>แพทย์</label>
+              <select id="doctor_id" required>
+                <option value="">— เลือก —</option>
+              </select>
+            </div>
+            <div class="row">
+              <label>ห้อง</label>
+              <select id="room_id">
+                <option value="">— เลือกห้อง —</option>
+              </select>
+            </div>
+            <div class="row">
+              <label>สถานะ</label>
+              <input value="Scheduled (S001)" disabled />
+              <div class="hint">* ใบนัดใหม่จะเริ่มที่ S001</div>
+            </div>
+            <div class="row">
+              <label>เวลาเริ่ม (HH:MM)</label>
+              <input type="time" id="time_start" required />
+            </div>
+            <div class="row">
+              <label>เวลาสิ้นสุด (อัตโนมัติ)</label>
+              <input id="time_end_preview" placeholder="--:-- --" disabled />
+            </div>
+            <div class="row">
+              <label>เลขห้อง (ถ้ามี)</label>
+              <input id="room_no" placeholder="เช่น OPD-2" />
+            </div>
+          </div>
+
+          <div class="col" style="grid-column: 1 / -1">
+            <div class="actions">
+              <button class="btn btn-primary" type="submit">บันทึกใบนัด</button>
+              <a class="btn btn-ghost" href="index.html">กลับหน้า Dashboard</a>
+              <a class="btn btn-info" href="appointment_history.html"
+                >ดูประวัติ</a
+              >
+              <span class="hint" id="msg"></span>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
 
-    <div class="card">
-      <form id="f" class="grid">
-        <!-- ซ้าย -->
-        <div class="col">
-          <div class="row">
-            <label>ผู้ป่วย</label>
-            <select id="patient_id" required><option value="">— เลือก —</option></select>
-          </div>
-          <div class="row">
-            <label>แผนก</label>
-            <select id="department_id" required><option value="">— เลือก —</option></select>
-          </div>
-          <div class="row">
-            <label>ประเภทนัด</label>
-            <select id="type_id" required><option value="">— เลือก —</option></select>
-          </div>
-          <div class="row">
-            <label>วันนัด (YYYY-MM-DD)</label>
-            <input type="date" id="appointment_date" required/>
-          </div>
-          <div class="row">
-            <label>ระยะเวลา (นาที)</label>
-            <input type="number" id="duration_min" value="0" min="0" />
-          </div>
-          <div class="row">
-            <label>หมายเหตุ</label>
-            <textarea id="notes" placeholder="เช่น ตรวจสุขภาพประจำปี"></textarea>
-          </div>
-        </div>
+    <script type="module">
+      import { apiGet, apiPost } from "./js/api.js";
 
-        <!-- ขวา -->
-        <div class="col">
-          <div class="row">
-            <label>แพทย์</label>
-            <select id="doctor_id" required><option value="">— เลือก —</option></select>
-          </div>
-          <div class="row">
-            <label>ห้อง</label>
-            <select id="room_id"><option value="">— เลือกห้อง —</option></select>
-          </div>
-          <div class="row">
-            <label>สถานะ</label>
-            <input value="Scheduled (S001)" disabled />
-            <div class="hint">* ใบนัดใหม่จะเริ่มที่ S001</div>
-          </div>
-          <div class="row">
-            <label>เวลาเริ่ม (HH:MM)</label>
-            <input type="time" id="time_start" required/>
-          </div>
-          <div class="row">
-            <label>เวลาสิ้นสุด (อัตโนมัติ)</label>
-            <input id="time_end_preview" placeholder="--:-- --" disabled/>
-          </div>
-          <div class="row">
-            <label>เลขห้อง (ถ้ามี)</label>
-            <input id="room_no" placeholder="เช่น OPD-2"/>
-          </div>
-        </div>
-
-        <div class="col" style="grid-column:1 / -1">
-          <div class="actions">
-            <button class="btn btn-primary" type="submit">บันทึกใบนัด</button>
-            <a class="btn btn-ghost" href="index.html">กลับหน้า Dashboard</a>
-            <a class="btn btn-info" href="appointment_history.html">ดูประวัติ</a>
-            <span class="hint" id="msg"></span>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script type="module">
-    import { apiGet, apiPost } from "./js/api.js";
-
-    // helper toast
-    function toast(message, type = "info") {
-      Toastify({
-        text: message,
-        duration: 3000,
-        close: true,
-        gravity: "top",
-        position: "center",
-        stopOnFocus: true,
-        className: type === "success" ? "toast-success"
-               : type === "error"   ? "toast-error" : "",
-      }).showToast();
-    }
-
-    // โหลดตัวเลือก
-    const o = await apiGet("/api/options");
-    const fill = (id, rows, v, t) => {
-      const sel = document.getElementById(id);
-      rows.forEach(r => {
-        const opt = document.createElement("option");
-        opt.value = r[v];
-        opt.textContent = r[t];
-        sel.appendChild(opt);
-      });
-    };
-    fill("patient_id", o.patients, "PATIENT_ID", "FULL_NAME");
-    fill("department_id", o.departments, "DEPARTMENT_ID", "DEPT_NAME");
-    fill("doctor_id", o.doctors, "DOCTOR_ID", "FULL_NAME");
-    fill("room_id", o.rooms, "ROOM_ID", "ROOM_NAME");
-    fill("type_id", o.types, "TYPE_ID", "TYPE_NAME");
-
-    // คำนวณเวลาสิ้นสุดฝั่งหน้าเว็บ
-    const typesById = Object.fromEntries(o.types.map(x => [x.TYPE_ID, Number(x.DEFAULT_DURATION_MIN || 0)]));
-    const timeStartEl = document.getElementById("time_start");
-    const typeEl = document.getElementById("type_id");
-    const durEl = document.getElementById("duration_min");
-    const endPreviewEl = document.getElementById("time_end_preview");
-
-    function addMinutesHHMM(hhmm, minutes){
-      if(!hhmm) return "";
-      const [H,M] = hhmm.split(":").map(Number);
-      const base = new Date(2000,0,1,H,M,0);
-      const end = new Date(base.getTime() + minutes*60000);
-      const hh = String(end.getHours()).padStart(2,"0");
-      const mm = String(end.getMinutes()).padStart(2,"0");
-      return `${hh}:${mm}`;
-    }
-    function updatePreview(){
-      const t = timeStartEl.value;
-      const defDur = typesById[typeEl.value] || 0;
-      const extra = Number(durEl.value || 0);
-      endPreviewEl.value = t ? addMinutesHHMM(t, defDur + extra) : "";
-    }
-    timeStartEl.addEventListener("input", updatePreview);
-    typeEl.addEventListener("change", updatePreview);
-    durEl.addEventListener("input", updatePreview);
-
-    // ส่งบันทึก
-    const form = document.getElementById("f");
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const body = {
-        patient_id: form.patient_id.value,
-        doctor_id: form.doctor_id.value,
-        department_id: form.department_id.value,
-        room_id: form.room_id.value || null,
-        type_id: form.type_id.value,
-        appointment_date: form.appointment_date.value,
-        time_start: form.time_start.value,
-        duration_min: Number(form.duration_min.value || 0),
-        notes: form.notes.value || null,
-        room_no: form.room_no.value || null
-      };
-
-      // ตรวจค่าว่างหลัก ๆ ก่อนส่ง
-      if (!body.patient_id)  return toast("กรุณาเลือกผู้ป่วย", "error");
-      if (!body.department_id) return toast("กรุณาเลือกแผนก", "error");
-      if (!body.doctor_id)   return toast("กรุณาเลือกแพทย์", "error");
-      if (!body.type_id)     return toast("กรุณาเลือกประเภทนัด", "error");
-      if (!body.appointment_date) return toast("กรุณาเลือกวันที่นัด", "error");
-      if (!body.time_start)  return toast("กรุณาใส่เวลาเริ่ม", "error");
-
-      try{
-        const r = await apiPost("/api/appointments", body);
-        if (r.ok) {
-          toast(`บันทึกสำเร็จ เวลาเสร็จสิ้น: ${r.data.time_end}`, "success");
-          form.reset();
-          endPreviewEl.value="";
-        } else {
-          toast(`ล้มเหลว: ${r.message}`, "error");
-        }
-      }catch(err){
-        toast("ล้มเหลว: " + (err?.message || err), "error");
+      // helper toast
+      function toast(message, type = "info") {
+        Toastify({
+          text: message,
+          duration: 3000,
+          close: true,
+          gravity: "top",
+          position: "center",
+          stopOnFocus: true,
+          className:
+            type === "success"
+              ? "toast-success"
+              : type === "error"
+              ? "toast-error"
+              : "",
+        }).showToast();
       }
-    });
-  </script>
-</body>
+
+      // โหลดตัวเลือก
+      const o = await apiGet("/api/options");
+      const fill = (id, rows, v, t) => {
+        const sel = document.getElementById(id);
+        rows.forEach((r) => {
+          const opt = document.createElement("option");
+          opt.value = r[v];
+          opt.textContent = r[t];
+          sel.appendChild(opt);
+        });
+      };
+      fill("patient_id", o.patients, "PATIENT_ID", "FULL_NAME");
+      fill("department_id", o.departments, "DEPARTMENT_ID", "DEPT_NAME");
+      fill("doctor_id", o.doctors, "DOCTOR_ID", "FULL_NAME");
+      fill("room_id", o.rooms, "ROOM_ID", "ROOM_NAME");
+      fill("type_id", o.types, "TYPE_ID", "TYPE_NAME");
+
+      const doctorById = Object.fromEntries(
+        (o.doctors || []).map((d) => [d.DOCTOR_ID, d])
+      );
+      // roomsByDept: { [DEPARTMENT_ID]: Room[] }
+      const roomsByDept = (o.rooms || []).reduce((acc, r) => {
+        const k = r.DEPARTMENT_ID || "";
+        (acc[k] ||= []).push(r);
+        return acc;
+      }, {});
+
+      // เก็บ DOM ช่วย
+      const deptSel = document.getElementById("department_id");
+      const doctorSel = document.getElementById("doctor_id");
+      const roomSel = document.getElementById("room_id");
+
+      // เติม options ห้องใหม่ตามแผนก
+      function renderRoomsForDept(deptId) {
+        // เก็บห้องเดิมที่เลือก (ถ้าตรงแผนก จะคงไว้ได้)
+        const prev = roomSel.value || "";
+        roomSel.innerHTML = ""; // เคลียร์
+
+        const def = document.createElement("option");
+        def.value = "";
+        def.textContent = "— เลือกห้อง —";
+        roomSel.appendChild(def);
+
+        const list = roomsByDept[deptId] || [];
+        list.forEach((r) => {
+          const opt = document.createElement("option");
+          opt.value = r.ROOM_ID;
+          opt.textContent = r.ROOM_NAME;
+          roomSel.appendChild(opt);
+        });
+
+        // ถ้าห้องเดิมยังอยู่ในแผนกนี้ ให้คงค่า, ไม่งั้นเคลียร์ค่า
+        const canKeep = list.some((r) => r.ROOM_ID === prev);
+        roomSel.value = canKeep ? prev : "";
+      }
+
+      // เมื่อเลือก "หมอ" → ฟิกแผนก + กรองห้อง
+      doctorSel.addEventListener("change", () => {
+        const docId = doctorSel.value;
+        const doc = doctorById[docId];
+
+        if (doc && doc.DEPARTMENT_ID) {
+          // ฟิกค่าแผนกให้ตรงกับหมอ
+          deptSel.value = doc.DEPARTMENT_ID;
+
+          // ถ้าต้องการ “ล็อกแผนก” ไม่ให้แก้เอง ให้ uncomment บรรทัดถัดไป
+          // deptSel.disabled = true;
+
+          // กรองห้องตามแผนกของหมอ
+          renderRoomsForDept(doc.DEPARTMENT_ID);
+        } else {
+          // ไม่รู้แผนกของหมอ (กรณีเลือกค่าว่าง)
+          // deptSel.disabled = false; // ถ้าเคยล็อกไว้ จะปลดล็อก
+          renderRoomsForDept(""); // เคลียร์ให้เลือกใหม่
+        }
+      });
+
+      // เลือกแผนกเอง (กรณีอยากเปลี่ยน) → ห้องต้องรีกรองตามแผนกนั้น
+      deptSel.addEventListener("change", () => {
+        // ถ้าอยากปลดล็อกแผนกเอง ให้แน่ใจว่าไม่ได้ disable ไว้
+        // deptSel.disabled = false;
+        renderRoomsForDept(deptSel.value);
+      });
+
+      // ค่าเริ่มต้น: กรองห้องตามค่าแผนกปัจจุบัน (ถ้าตั้งแต่แรกมีค่า)
+      renderRoomsForDept(deptSel.value || "");
+
+      // คำนวณเวลาสิ้นสุดฝั่งหน้าเว็บ
+      const typesById = Object.fromEntries(
+        o.types.map((x) => [x.TYPE_ID, Number(x.DEFAULT_DURATION_MIN || 0)])
+      );
+      const timeStartEl = document.getElementById("time_start");
+      const typeEl = document.getElementById("type_id");
+      const durEl = document.getElementById("duration_min");
+      const endPreviewEl = document.getElementById("time_end_preview");
+
+      function addMinutesHHMM(hhmm, minutes) {
+        if (!hhmm) return "";
+        const [H, M] = hhmm.split(":").map(Number);
+        const base = new Date(2000, 0, 1, H, M, 0);
+        const end = new Date(base.getTime() + minutes * 60000);
+        const hh = String(end.getHours()).padStart(2, "0");
+        const mm = String(end.getMinutes()).padStart(2, "0");
+        return `${hh}:${mm}`;
+      }
+      function updatePreview() {
+        const t = timeStartEl.value;
+        const defDur = typesById[typeEl.value] || 0;
+        const extra = Number(durEl.value || 0);
+        endPreviewEl.value = t ? addMinutesHHMM(t, defDur + extra) : "";
+      }
+      timeStartEl.addEventListener("input", updatePreview);
+      typeEl.addEventListener("change", updatePreview);
+      durEl.addEventListener("input", updatePreview);
+
+      // ส่งบันทึก
+      const form = document.getElementById("f");
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const body = {
+          patient_id: form.patient_id.value,
+          doctor_id: form.doctor_id.value,
+          department_id: form.department_id.value,
+          room_id: form.room_id.value || null,
+          type_id: form.type_id.value,
+          appointment_date: form.appointment_date.value,
+          time_start: form.time_start.value,
+          duration_min: Number(form.duration_min.value || 0),
+          notes: form.notes.value || null,
+          room_no: form.room_no.value || null,
+        };
+
+        // ตรวจค่าว่างหลัก ๆ ก่อนส่ง
+        if (!body.patient_id) return toast("กรุณาเลือกผู้ป่วย", "error");
+        if (!body.department_id) return toast("กรุณาเลือกแผนก", "error");
+        if (!body.doctor_id) return toast("กรุณาเลือกแพทย์", "error");
+        if (!body.type_id) return toast("กรุณาเลือกประเภทนัด", "error");
+        if (!body.appointment_date)
+          return toast("กรุณาเลือกวันที่นัด", "error");
+        if (!body.time_start) return toast("กรุณาใส่เวลาเริ่ม", "error");
+
+        try {
+          const r = await apiPost("/api/appointments", body);
+          if (r.ok) {
+            toast(`บันทึกสำเร็จ เวลาเสร็จสิ้น: ${r.data.time_end}`, "success");
+            form.reset();
+            endPreviewEl.value = "";
+          } else {
+            toast(`ล้มเหลว: ${r.message}`, "error");
+          }
+        } catch (err) {
+          toast("ล้มเหลว: " + (err?.message || err), "error");
+        }
+      });
+    </script>
+  </body>
 </html>
