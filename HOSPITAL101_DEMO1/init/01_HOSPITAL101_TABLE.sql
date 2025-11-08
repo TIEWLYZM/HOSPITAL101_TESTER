@@ -532,6 +532,26 @@ INSERT INTO rooms (room_id, department_id, room_name, location_desc)
 SELECT 'R005','D005','ห้องตรวจสูติ-นรีเวช', NULL FROM dual
 WHERE NOT EXISTS (SELECT 1 FROM rooms WHERE room_id='R005');
 
+INSERT INTO rooms (room_id, department_id, room_name, location_desc)
+SELECT 'R006','D001','ห้องตรวจอายุรกรรมทั่วไป 2', NULL FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM rooms WHERE room_id='R006');
+
+INSERT INTO rooms (room_id, department_id, room_name, location_desc)
+SELECT 'R007','D002','ห้องตรวจเด็ก 2', NULL FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM rooms WHERE room_id='R007');
+
+INSERT INTO rooms (room_id, department_id, room_name, location_desc)
+SELECT 'R008','D003','ห้องตรวจหู คอ จมูก 2', NULL FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM rooms WHERE room_id='R008');
+
+INSERT INTO rooms (room_id, department_id, room_name, location_desc)
+SELECT 'R009','D004','ห้องตรวจศัลยกรรมกระดูก 2', NULL FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM rooms WHERE room_id='R009');
+
+INSERT INTO rooms (room_id, department_id, room_name, location_desc)
+SELECT 'R010','D005','ห้องตรวจสูติ-นรีเวช 2', NULL FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM rooms WHERE room_id='R010');
+
 --------------------------------------------------------------------------------
 -- Doctors (DOC001..DOC005)  -- หมายเหตุ: มี UNIQUE(license_no)
 --------------------------------------------------------------------------------
@@ -555,27 +575,63 @@ INSERT INTO doctors (doctor_id, full_name, license_no, phone, specialty, departm
 SELECT 'DOC005','Dr.Sho Palangbai','MD56789','0856789012','สูติ-นรีเวช','D005' FROM dual
 WHERE NOT EXISTS (SELECT 1 FROM doctors WHERE doctor_id='DOC005');
 
+INSERT INTO doctors (doctor_id, full_name, license_no, phone, specialty, department_id)
+SELECT 'DOC006','Dr.Phat Internal','MD67890','0867890123','อายุรกรรมทั่วไป','D001' FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM doctors WHERE doctor_id='DOC006');
+
+INSERT INTO doctors (doctor_id, full_name, license_no, phone, specialty, department_id)
+SELECT 'DOC007','Dr.May Clinic','MD67891','0878901234','อายุรกรรมทั่วไป','D001' FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM doctors WHERE doctor_id='DOC007');
+
+INSERT INTO doctors (doctor_id, full_name, license_no, phone, specialty, department_id)
+SELECT 'DOC008','Dr.Aim Peds','MD67892','0889012345','กุมารเวชกรรม','D002' FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM doctors WHERE doctor_id='DOC008');
+
+INSERT INTO doctors (doctor_id, full_name, license_no, phone, specialty, department_id)
+SELECT 'DOC009','Dr.Korn ENT','MD67893','0890123456','หู คอ จมูก','D003' FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM doctors WHERE doctor_id='DOC009');
+
+INSERT INTO doctors (doctor_id, full_name, license_no, phone, specialty, department_id)
+SELECT 'DOC010','Dr.Nam ENT','MD67894','0801234567','หู คอ จมูก','D003' FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM doctors WHERE doctor_id='DOC010');
+
+INSERT INTO doctors (doctor_id, full_name, license_no, phone, specialty, department_id)
+SELECT 'DOC011','Dr.Pim ENT','MD67895','0819876543','หู คอ จมูก','D003' FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM doctors WHERE doctor_id='DOC011');
+
+INSERT INTO doctors (doctor_id, full_name, license_no, phone, specialty, department_id)
+SELECT 'DOC012','Dr.Boss Ortho','MD67896','0829876543','ศัลยกรรมกระดูก','D004' FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM doctors WHERE doctor_id='DOC012');
+
+INSERT INTO doctors (doctor_id, full_name, license_no, phone, specialty, department_id)
+SELECT 'DOC013','Dr.Fah Ortho','MD67897','0839876543','ศัลยกรรมกระดูก','D004' FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM doctors WHERE doctor_id='DOC013');
+
+INSERT INTO doctors (doctor_id, full_name, license_no, phone, specialty, department_id)
+SELECT 'DOC014','Dr.June OB-GYN','MD67898','0849876543','สูติ-นรีเวช','D005' FROM dual
+WHERE NOT EXISTS (SELECT 1 FROM doctors WHERE doctor_id='DOC014');
+
 --------------------------------------------------------------------------------
 -- Patients (PAT001..PAT005)  -- หมายเหตุ: มี UNIQUE(hn)
 --------------------------------------------------------------------------------
 INSERT INTO patients (patient_id, hn, first_name, last_name, dob, phone, email)
-SELECT 'PAT001','HN0001','ชิษณุพงษ์','คงควรคอย', DATE '2002-07-12','0992384822', NULL FROM dual
+SELECT 'PAT001','HN0001','ชิษณุพงษ์','คงควรคอย', DATE '2002-07-12','0992384822', 'chit.mail' FROM dual
 WHERE NOT EXISTS (SELECT 1 FROM patients WHERE patient_id='PAT001');
 
 INSERT INTO patients (patient_id, hn, first_name, last_name, dob, phone, email)
-SELECT 'PAT002','HN0002','คงกระพัน','ยันหว่าง', DATE '1995-03-12','0912345678', NULL FROM dual
+SELECT 'PAT002','HN0002','คงกระพัน','ยันหว่าง', DATE '1995-03-12','0912345678', 'kong.mail' FROM dual
 WHERE NOT EXISTS (SELECT 1 FROM patients WHERE patient_id='PAT002');
 
 INSERT INTO patients (patient_id, hn, first_name, last_name, dob, phone, email)
-SELECT 'PAT003','HN0003','เสดทะวุด','ทรุดโทรม', DATE '1988-07-21','0923456789', NULL FROM dual
+SELECT 'PAT003','HN0003','เสดทะวุด','ทรุดโทรม', DATE '1988-07-21','0923456789', 'sed.mail' FROM dual
 WHERE NOT EXISTS (SELECT 1 FROM patients WHERE patient_id='PAT003');
 
 INSERT INTO patients (patient_id, hn, first_name, last_name, dob, phone, email)
-SELECT 'PAT004','HN0004','จีราวัฒน์','วัดได้', DATE '2000-01-05','0934567890', NULL FROM dual
+SELECT 'PAT004','HN0004','จีราวัฒน์','วัดได้', DATE '2000-01-05','0934567890', 'G.mail' FROM dual
 WHERE NOT EXISTS (SELECT 1 FROM patients WHERE patient_id='PAT004');
 
 INSERT INTO patients (patient_id, hn, first_name, last_name, dob, phone, email)
-SELECT 'PAT005','HN0005','สหพล','ชนแก้ว', DATE '1992-09-09','0945678901', NULL FROM dual
+SELECT 'PAT005','HN0005','สหพล','ชนแก้ว', DATE '1992-09-09','0945678901', 'saha.mail' FROM dual
 WHERE NOT EXISTS (SELECT 1 FROM patients WHERE patient_id='PAT005');
 
 --------------------------------------------------------------------------------
