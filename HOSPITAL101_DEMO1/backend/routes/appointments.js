@@ -100,13 +100,11 @@ r.post("/", async (req, res) => {
 
     res.json({ ok: true, message: "บันทึกสำเร็จ", data: result });
   } catch (err) {
-    res
-      .status(400)
-      .json({
-        ok: false,
-        message: "บันทึกล้มเหลว",
-        error: String(err.message || err),
-      });
+    res.status(400).json({
+      ok: false,
+      message: "บันทึกล้มเหลว",
+      error: String(err.message || err),
+    });
   }
 });
 
@@ -185,13 +183,11 @@ r.patch("/:id/status", async (req, res) => {
 
     res.json({ ok: true, message: "อัพเดตสถานะสำเร็จ", data: out });
   } catch (err) {
-    res
-      .status(400)
-      .json({
-        ok: false,
-        message: "อัพเดตสถานะล้มเหลว",
-        error: String(err.message || err),
-      });
+    res.status(400).json({
+      ok: false,
+      message: "อัพเดตสถานะล้มเหลว",
+      error: String(err.message || err),
+    });
   }
 });
 
@@ -202,25 +198,32 @@ r.get("/:id", async (req, res) => {
     const data = await withConn(async (conn) => {
       const ap = await conn.execute(
         `
-        SELECT
-          a.appointment_id,
-          TO_CHAR(a.appointment_date, 'YYYY-MM-DD') AS appointment_date,
-          a.time_start, a.time_end, a.duration_min, a.notes, a.room_no,
-          a.status_id, s.status_name,
-          p.patient_id, (p.first_name||' '||p.last_name) AS patient_name,
-          d.doctor_id, d.full_name AS doctor_name,
-          dep.department_id, dep.dept_name,
-          r.room_id, r.room_name,
-          t.type_id, t.type_name
-        FROM appointments a
-          LEFT JOIN appointment_statuses s ON s.status_id = a.status_id
-          LEFT JOIN patients p ON p.patient_id = a.patient_id
-          LEFT JOIN doctors d ON d.doctor_id = a.doctor_id
-          LEFT JOIN departments dep ON dep.department_id = a.department_id
-          LEFT JOIN rooms r ON r.room_id = a.room_id
-          LEFT JOIN appointment_types t ON t.type_id = a.type_id
-        WHERE a.appointment_id = :id
-        `,
+  SELECT
+    a.appointment_id,
+    TO_CHAR(a.appointment_date, 'YYYY-MM-DD') AS appointment_date,
+    a.time_start, a.time_end, a.duration_min, a.notes, a.room_no,
+    a.status_id, s.status_name,
+
+    p.patient_id,
+    (p.first_name||' '||p.last_name) AS patient_name,
+    p.phone AS phone,            -- << ADD
+    p.email AS email,            -- << ADD
+    p.phone AS patient_phone,    -- << ADD (สำรองชื่อฟิลด์)
+    p.email AS patient_email,    -- << ADD (สำรองชื่อฟิลด์)
+
+    d.doctor_id, d.full_name AS doctor_name,
+    dep.department_id, dep.dept_name,
+    r.room_id, r.room_name,
+    t.type_id, t.type_name
+  FROM appointments a
+    LEFT JOIN appointment_statuses s ON s.status_id = a.status_id
+    LEFT JOIN patients p ON p.patient_id = a.patient_id
+    LEFT JOIN doctors d ON d.doctor_id = a.doctor_id
+    LEFT JOIN departments dep ON dep.department_id = a.department_id
+    LEFT JOIN rooms r ON r.room_id = a.room_id
+    LEFT JOIN appointment_types t ON t.type_id = a.type_id
+  WHERE a.appointment_id = :id
+  `,
         { id },
         { outFormat: 4002 }
       );

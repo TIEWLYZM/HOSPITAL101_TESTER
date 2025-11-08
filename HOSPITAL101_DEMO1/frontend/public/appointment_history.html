@@ -44,11 +44,22 @@
         width: min(780px, 95vw);
       }
       @keyframes fadeIn {
-        from { opacity: 0; } to { opacity: 1; }
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
       @keyframes popIn {
-        from { transform: scale(0.9); opacity: 0; }
-        to { transform: scale(1); opacity: 1; }
+        from {
+          transform: scale(0.9);
+          opacity: 0;
+        }
+        to {
+          transform: scale(1);
+          opacity: 1;
+        }
       }
     </style>
 
@@ -62,57 +73,148 @@
         --accent: #0ea5e9;
         --ok: #22c55e;
       }
-      * { box-sizing: border-box; }
+      * {
+        box-sizing: border-box;
+      }
       body {
         margin: 0;
         background: var(--bg);
         color: var(--text);
         font-family: system-ui, Segoe UI, Roboto, Arial;
       }
-      .wrap { max-width: 1100px; margin: 48px auto; padding: 0 20px; }
+      .wrap {
+        max-width: 1100px;
+        margin: 48px auto;
+        padding: 0 20px;
+      }
       .topbar {
-        display: flex; gap: 10px; justify-content: space-between; align-items: center; margin-bottom: 12px;
+        display: flex;
+        gap: 10px;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
       }
       .chip {
-        padding: 10px 14px; border-radius: 999px; background: #0e1a2e;
-        border: 1px solid var(--line); color: #cde1ff; font-weight: 700; font-size: 12px; text-decoration: none;
+        padding: 10px 14px;
+        border-radius: 999px;
+        background: #0e1a2e;
+        border: 1px solid var(--line);
+        color: #cde1ff;
+        font-weight: 700;
+        font-size: 12px;
+        text-decoration: none;
       }
-      .chip.danger { border-color: #4b2630; background: #2a0f15; color: #ffb3bf; }
-      .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
-      .row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
-      input, select, button {
-        padding: 10px 12px; border-radius: 12px; border: 1px solid var(--line); background: #0e1626; color: var(--text);
+      .chip.danger {
+        border-color: #4b2630;
+        background: #2a0f15;
+        color: #ffb3bf;
       }
-      button.primary { background: var(--ok); color: #06210e; border-color: transparent; font-weight: 800; }
-      table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 10px; }
+      .card {
+        background: var(--card);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 18px;
+      }
+      .row {
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+      }
+      input,
+      select,
+      button {
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        background: #0e1626;
+        color: var(--text);
+      }
+      button.primary {
+        background: var(--ok);
+        color: #06210e;
+        border-color: transparent;
+        font-weight: 800;
+      }
+      table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        margin-top: 10px;
+      }
       thead th {
-        font-size: 12px; color: var(--muted); text-align: left; padding: 10px 12px;
-        background: #0e1626; border-bottom: 1px solid var(--line);
+        font-size: 12px;
+        color: var(--muted);
+        text-align: left;
+        padding: 10px 12px;
+        background: #0e1626;
+        border-bottom: 1px solid var(--line);
       }
-      tbody td { padding: 12px; border-bottom: 1px solid var(--line); }
-      tbody tr:hover { background: #0e1626; cursor: pointer; }
+      tbody td {
+        padding: 12px;
+        border-bottom: 1px solid var(--line);
+      }
+      tbody tr:hover {
+        background: #0e1626;
+        cursor: pointer;
+      }
 
-      .modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-      .close {
-        cursor: pointer; border: 1px solid #2a3a5a; background: transparent; color: #cde1ff; border-radius: 10px; padding: 6px 10px;
+      .modal-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
       }
-      .kv { display: grid; grid-template-columns: 160px 1fr; gap: 8px 14px; }
-      .muted { color: #8ea0bd; font-size: 12px; }
-      .hr { height: 1px; background: #24324d; margin: 12px 0; }
-      .history { font-size: 14px; }
-      .pill { padding: 2px 8px; border-radius: 999px; border: 1px solid #2a3a5a; }
+      .close {
+        cursor: pointer;
+        border: 1px solid #2a3a5a;
+        background: transparent;
+        color: #cde1ff;
+        border-radius: 10px;
+        padding: 6px 10px;
+      }
+      .kv {
+        display: grid;
+        grid-template-columns: 160px 1fr;
+        gap: 8px 14px;
+      }
+      .muted {
+        color: #8ea0bd;
+        font-size: 12px;
+      }
+      .hr {
+        height: 1px;
+        background: #24324d;
+        margin: 12px 0;
+      }
+      .history {
+        font-size: 14px;
+      }
+      .pill {
+        padding: 2px 8px;
+        border-radius: 999px;
+        border: 1px solid #2a3a5a;
+      }
     </style>
   </head>
   <body>
     <div class="wrap">
       <div class="topbar">
         <div class="row" style="margin: 0">
-          <input id="appt_id" placeholder="appointment_id" style="min-width: 260px" />
+          <input
+            id="appt_id"
+            placeholder="appointment_id"
+            style="min-width: 260px"
+          />
           <select id="new_status">
             <option value="S002">Complete</option>
             <option value="S003">Cancel</option>
           </select>
-          <input id="cancel_reason" placeholder="เหตุผลยกเลิก (ถ้า Cancel)" style="flex: 1" />
+          <input
+            id="cancel_reason"
+            placeholder="เหตุผลยกเลิก (ถ้า Cancel)"
+            style="flex: 1"
+          />
           <button id="btnChange" class="primary">บันทึก</button>
         </div>
         <a class="chip" href="appointment_create.html">+ ออกใบนัดใหม่</a>
@@ -168,8 +270,11 @@
           position: "center",
           stopOnFocus: true,
           className:
-            type === "success" ? "toast-success" :
-            type === "error"   ? "toast-error"   : "",
+            type === "success"
+              ? "toast-success"
+              : type === "error"
+              ? "toast-error"
+              : "",
         }).showToast();
       }
 
@@ -178,10 +283,10 @@
         if (!v) return "";
         if (typeof v === "string") {
           const s = v.trim();
-          if (s.includes("T")) return s.slice(0, 10);        // ISO
-          if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;        // YYYY-MM-DD
+          if (s.includes("T")) return s.slice(0, 10); // ISO
+          if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s; // YYYY-MM-DD
           if (/^\d{4}-\d{2}-\d{2}\s/.test(s)) return s.slice(0, 10); // "2025-11-06 00:00:00"
-          const d = new Date(s);                              // "Fri Nov 07 2025 ..."
+          const d = new Date(s); // "Fri Nov 07 2025 ..."
           if (!Number.isNaN(d.getTime())) return d.toISOString().slice(0, 10);
           return s;
         }
@@ -196,32 +301,45 @@
         const rows = v.rows;
         const tb = document.querySelector("#tbl tbody");
 
-        tb.innerHTML = rows.map((r) => {
-          const canDelete =
-            (r.STATUS_ID && r.STATUS_ID === "S001") ||
-            String(r.STATUS_NAME || "").toLowerCase() === "scheduled";
+        tb.innerHTML = rows
+          .map((r) => {
+            const canDelete =
+              (r.STATUS_ID && r.STATUS_ID === "S001") ||
+              String(r.STATUS_NAME || "").toLowerCase() === "scheduled";
 
-          const actionsHtml = `
-            <button class="chip" data-view="${r.APPOINTMENT_ID}" type="button">ดูรายละเอียด</button>
-            ${ canDelete ? `<button class="chip danger" data-del="${r.APPOINTMENT_ID}" type="button">ลบ</button>` : `` }
-          `;
+            const actionsHtml = `
+          <button class="chip" data-view="${
+            r.APPOINTMENT_ID
+          }" type="button">ดูรายละเอียด</button>
+          ${
+            canDelete
+              ? `<button class="chip danger" data-del="${r.APPOINTMENT_ID}" type="button">ลบ</button>`
+              : ``
+          }
+        `;
 
-          return `
-            <tr data-id="${r.APPOINTMENT_ID}">
-              <td>${r.APPOINTMENT_ID}</td>
-              <td>${toYMD(r.APPOINTMENT_DATE)}</td>
-              <td>${r.TIME_START || ""}</td>
-              <td>${r.TIME_END || ""}</td>
-              <td>${r.STATUS_NAME}</td>
-              <td style="white-space:nowrap;display:flex;gap:8px">${actionsHtml}</td>
-            </tr>
-          `;
-        }).join("");
+            return `
+          <tr data-id="${r.APPOINTMENT_ID}">
+            <td>${r.APPOINTMENT_ID}</td>
+            <td>${toYMD(r.APPOINTMENT_DATE)}</td>
+            <td>${r.TIME_START || ""}</td>
+            <td>${r.TIME_END || ""}</td>
+            <td>${r.STATUS_NAME}</td>
+            <td style="white-space:nowrap;display:flex;gap:8px">${actionsHtml}</td>
+          </tr>
+        `;
+          })
+          .join("");
 
         // คลิกแถว -> เติม ID
         tb.querySelectorAll("tr").forEach((tr) => {
           tr.onclick = (e) => {
-            if (e.target && e.target.dataset && (e.target.dataset.view || e.target.dataset.del)) return;
+            if (
+              e.target &&
+              e.target.dataset &&
+              (e.target.dataset.view || e.target.dataset.del)
+            )
+              return;
             document.getElementById("appt_id").value = tr.dataset.id || "";
             toast("คัดลอก ID ใส่ช่องแล้ว", "success");
           };
@@ -251,11 +369,17 @@
           document.getElementById("deleteModal").classList.remove("show");
           try {
             const r = await apiDelete(`/api/appointments/${id}`);
-            if (r.ok) { toast("ลบข้อมูลสำเร็จ", "success"); load(); }
-            else     { toast(`ลบข้อมูลไม่สำเร็จ: ${r.message}`, "error"); }
+            if (r.ok) {
+              toast("ลบข้อมูลสำเร็จ", "success");
+              load();
+            } else {
+              toast(`ลบข้อมูลไม่สำเร็จ: ${r.message}`, "error");
+            }
           } catch (err) {
             toast("ลบข้อมูลไม่สำเร็จ: " + (err?.message || err), "error");
-          } finally { deleteTarget = null; }
+          } finally {
+            deleteTarget = null;
+          }
         };
       }
 
@@ -282,23 +406,40 @@
             ["ระยะเวลา(นาที)", ap.DURATION_MIN || 0],
             ["สถานะ", `${ap.STATUS_NAME} (${ap.STATUS_ID})`],
             ["หมายเหตุ", ap.NOTES || ""],
+            ["เบอร์โทร", ap.PHONE || ap.PATIENT_PHONE || ""],
+            ["อีเมล", ap.EMAIL || ap.PATIENT_EMAIL || ""],
           ];
 
+          // แสดงเฉพาะค่าที่ไม่ว่าง
           document.getElementById("m-kv").innerHTML = rows
-            .map(([k, v]) => `<div class="muted">${k}</div><div>${v ?? ""}</div>`)
+            .filter(
+              ([, v]) =>
+                v !== undefined && v !== null && String(v).trim() !== ""
+            )
+            .map(
+              ([k, v]) =>
+                `<div class="muted">${k}</div><div>${String(v).trim()}</div>`
+            )
             .join("");
 
-          document.getElementById("m-hist").innerHTML =
-            hist.length
-              ? hist.map(h => `
-                  <div style="display:flex;gap:10px;align-items:center;margin-bottom:6px">
-                    <span class="pill">${h.STATUS_NAME} (${h.STATUS_ID})</span>
-                    <span class="muted">${toYMD(h.CHANGED_AT)} ${h.CHANGED_TIME || ""}</span>
-                    <span class="muted">${h.CHANGED_BY ? "by " + h.CHANGED_BY : ""}</span>
-                    <span>${h.NOTE || ""}</span>
-                  </div>
-                `).join("")
-              : `<div class="muted">— ไม่มีประวัติ —</div>`;
+          document.getElementById("m-hist").innerHTML = hist.length
+            ? hist
+                .map(
+                  (h) => `
+            <div style="display:flex;gap:10px;align-items:center;margin-bottom:6px">
+              <span class="pill">${h.STATUS_NAME} (${h.STATUS_ID})</span>
+              <span class="muted">${toYMD(h.CHANGED_AT)} ${
+                    h.CHANGED_TIME || ""
+                  }</span>
+              <span class="muted">${
+                h.CHANGED_BY ? "by " + h.CHANGED_BY : ""
+              }</span>
+              <span>${h.NOTE || ""}</span>
+            </div>
+          `
+                )
+                .join("")
+            : `<div class="muted">— ไม่มีประวัติ —</div>`;
 
           document.getElementById("modal").classList.add("show");
         } catch (err) {
@@ -310,7 +451,8 @@
         document.getElementById("modal").classList.remove("show");
       };
       document.getElementById("modal").addEventListener("click", (e) => {
-        if (e.target.id === "modal") document.getElementById("modal").classList.remove("show");
+        if (e.target.id === "modal")
+          document.getElementById("modal").classList.remove("show");
       });
 
       load();
@@ -328,8 +470,12 @@
             changed_by: null,
             cancel_reason: reason,
           });
-          if (r.ok) { toast("อัปเดตสำเร็จ", "success"); load(); }
-          else     { toast(`ล้มเหลว: ${r.message}`, "error"); }
+          if (r.ok) {
+            toast("อัปเดตสำเร็จ", "success");
+            load();
+          } else {
+            toast(`ล้มเหลว: ${r.message}`, "error");
+          }
         } catch (err) {
           toast("ล้มเหลว: " + (err?.message || err), "error");
         }
@@ -339,11 +485,27 @@
     <!-- Modal Confirm Delete -->
     <div id="deleteModal" class="modal" aria-hidden="true">
       <div class="modal-card" style="max-width: 420px; text-align: center">
-        <div style="font-weight: 700; font-size: 18px; margin-bottom: 10px">ยืนยันการลบใบนัด?</div>
-        <div class="muted" style="margin-bottom: 20px">คุณแน่ใจหรือไม่ว่าต้องการลบใบนัดนี้ออกจากระบบ</div>
+        <div style="font-weight: 700; font-size: 18px; margin-bottom: 10px">
+          ยืนยันการลบใบนัด?
+        </div>
+        <div class="muted" style="margin-bottom: 20px">
+          คุณแน่ใจหรือไม่ว่าต้องการลบใบนัดนี้ออกจากระบบ
+        </div>
         <div style="display: flex; gap: 10px; justify-content: center">
-          <button id="btnCancelDel" class="chip" style="background: #1e293b; border-color: #334155">ยกเลิก</button>
-          <button id="btnConfirmDel" class="chip danger" style="font-weight: 700">ลบ</button>
+          <button
+            id="btnCancelDel"
+            class="chip"
+            style="background: #1e293b; border-color: #334155"
+          >
+            ยกเลิก
+          </button>
+          <button
+            id="btnConfirmDel"
+            class="chip danger"
+            style="font-weight: 700"
+          >
+            ลบ
+          </button>
         </div>
       </div>
     </div>
